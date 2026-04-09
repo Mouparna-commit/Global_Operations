@@ -33,6 +33,14 @@ from Global_Operations.dbo.practice_01;
  where T1.rn = 1
  order by order_id ; 
 
+ ---- Fact table : fact_order_fulfillment ---- 
+ Create table Global_Operations.dbo.Fact_order_fulfillment 
+ (order_id numeric(10), 
+ order_date_key date, 
+ ship_date_key date, 
+ order_amount numeric(10), 
+ cycle_time datetime) ; 
+
  
 
 
