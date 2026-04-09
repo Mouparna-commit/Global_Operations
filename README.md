@@ -4,7 +4,7 @@ and supply chain performance.
 
 The solution demonstrates how data can be ingested, transformed, modeled, and visualized to support decision-making across logistics, warehouse operations, and customer delivery performance.
 
-#**Architecture** 
+**Architecture** 
 The solution follows a modern Lakehouse architecture using Azure Databricks:
 
 Bronze Layer: Raw ingestion of source data with ingestion metadata (timestamp, batch_id, source)
