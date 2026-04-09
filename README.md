@@ -10,3 +10,17 @@ The solution follows a modern Lakehouse architecture using Azure Databricks:
 Bronze Layer: Raw ingestion of source data with ingestion metadata (timestamp, batch_id, source)
 Silver Layer: Data cleansing, transformation, and standardization
 Gold Layer: Dimensional modeling (fact and dimension tables) optimized for analytics and reporting
+
+**Data Model**
+
+A star schema is implemented in the Gold layer:
+
+Fact Table: fact_order_fulfillment
+Measures: order amount, cycle time, shipment duration
+Dimension Tables:
+dim_customer
+dim_date
+dim_warehouse
+dim_carrier
+
+This model enables efficient querying and supports scalable BI reporting.
