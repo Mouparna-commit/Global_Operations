@@ -1,41 +1,54 @@
- ---- Fact table : fact_order_fulfillment ---- 
- Create table Global_Operations.dbo.Fact_order_fulfillment 
- (order_id numeric(10), 
- order_date_key date, 
- ship_date_key date, 
- order_amount numeric(10), 
- cycle_time datetime) ; 
-
- Alter table Global_Operations.dbo.Fact_order_fulfillment
- Add  
- Channel_id numeric(10), 
- Brand_id   numeric(10); 
-
-
- -------- Dimensions : Dim_Customer ---------
- Create table Global_Operations.dbo.dimension_Warehouse
-
- (Warehouse_id char(5), 
-  Name Varchar(20),
-  WHDCR datetime, 
-  WHDLM datetime); 
-
-  Alter table Global_Operations.dbo.dimension_Warehouse
-  Add Add_info nchar(20),
-      Add_info1 nchar(20), 
-      Add_info2 nchar(20); 
+  -------- Dimensions : Dim_Warehouse ---------
+ CREATE TABLE Global_Operations.dbo.dim_warehouse (
+    warehouse_id    CHAR(5) PRIMARY KEY,
+    warehouse_name  VARCHAR(50),
+    location        VARCHAR(50),
+    created_date    DATETIME,
+    last_modified   DATETIME
+);
   
+--- Brand Dimension ------
+  CREATE TABLE Global_Operations.dbo.dim_brand (
+    brand_id        INT PRIMARY KEY,
+    brand_name      VARCHAR(50),
+    created_date    DATETIME, 
+    last_modified   DATETIME
+);
+---- Channel Dimension ----
+CREATE TABLE Global_Operations.dbo.dim_channel (
+    channel_id      INT PRIMARY KEY,
+    channel_name    VARCHAR(50), -- e.g., E-commerce, Retail, Wholesale
+    created_date    DATETIME,
+    Last_modified   DATETIME
+); 
 
-  Select * 
-  from Global_Operations.dbo.Fact_order_fulfillment; 
-
-  Create table Global_operations.dbo.dimension_Brand
-  (Brand_id numeric(10), 
-   Brand_name nchar(30),
-   BRDCR datetime, 
-   BRDLM datetime) ; 
-   
+---- Date Dimension -------
+CREATE TABLE Global_Operations.dbo.dim_date (
+    date_key        DATE PRIMARY KEY,
+    year            INT,
+    month           INT,
+    day             INT,
+    quarter         INT,
+    day_of_week     VARCHAR(10)
+);
  
-
+ --- Fact Table Creation -----
+CREATE TABLE Global_Operations.dbo.fact_order_fulfillment (
+    order_id            BIGINT PRIMARY KEY,
+    order_date_key      DATE,
+    ship_date_key       DATE,
+    warehouse_id        CHAR(5),
+    brand_id            INT,
+    channel_id          INT,
+    
+    order_amount        DECIMAL(12,2),
+    cycle_time_days     INT,   -- Ship Date - Order Date
+    
+    CONSTRAINT fk_wh FOREIGN KEY (warehouse_id)
+        REFERENCES Global_Operations.dbo.dim_warehouse(warehouse_id),
+        
+    CONSTRAINT fk_brand FOREIGN KEY (brand_id)
+        REFERENCES Global_Operations.dbo.dim_brand(brand_id)
+);
 
  
